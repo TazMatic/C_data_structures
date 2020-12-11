@@ -37,7 +37,7 @@ single_linked_list_size(const single_linked_list *list)
     while(currentNode)
     {
         ++len;
-        currentNode = currentNode->next
+        currentNode = currentNode->next;
     }
     return len;
 }
