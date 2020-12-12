@@ -41,3 +41,26 @@ single_linked_list_size(const single_linked_list *list)
     }
     return len;
 }
+
+bool 
+single_linked_list_append(single_linked_list *list, double value)
+{
+    return true;
+}
+
+void 
+single_linked_list_destroy(single_linked_list *list){
+    if(!list || !list->head)
+    {
+        return;
+    }
+    struct node *currentNode = list->head;
+    while(currentNode)
+    {
+        struct node *nextNode = currentNode->next;
+        free(currentNode);
+        currentNode = nextNode;
+    }
+    free(list);
+
+}
