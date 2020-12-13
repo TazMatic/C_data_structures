@@ -47,8 +47,10 @@ testAddAfterIndexOne(void)
 void
 testFetch(void)
 {
-    single_linked_list_prepend(list, 20);
-    CU_ASSERT_EQUAL(single_linked_list_fetch(list, 1), 20);
+    single_linked_list_append(list, 1);
+    single_linked_list_append(list, 2);
+    CU_ASSERT_EQUAL(*single_linked_list_fetch(list, 0), 1);
+    CU_ASSERT_EQUAL(*single_linked_list_fetch(list, 1), 2);
 }
 
 static CU_TestInfo listTests[] = {

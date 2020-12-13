@@ -125,7 +125,21 @@ single_linked_list_insertAfterIndex(single_linked_list *list, double value, size
 double *
 single_linked_list_fetch(single_linked_list *list, size_t idx)
 {
-    return 0;
+    if(!list)
+    {
+        return NULL;
+    }
+    struct node *currentNode = list->head;
+    while (currentNode && idx > 0)
+    {
+        --idx;
+        currentNode = currentNode->next;
+    }
+    if (idx != 0)
+    {
+        return NULL;
+    }
+    return &currentNode->value;
 }
 
 void 
