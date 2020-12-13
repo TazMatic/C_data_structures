@@ -44,6 +44,12 @@ testAddAfterIndexOne(void)
     single_linked_list_insertAfterIndex(list, 4, 1);
     CU_ASSERT_EQUAL(single_linked_list_size(list), 4);
 }
+void
+testFetch(void)
+{
+    single_linked_list_prepend(list, 20);
+    CU_ASSERT_EQUAL(single_linked_list_fetch(list, 1), 20);
+}
 
 static CU_TestInfo listTests[] = {
     // Name, functionThatRunsTest
@@ -51,6 +57,7 @@ static CU_TestInfo listTests[] = {
     { "test.append([])", testAppendOne},
     { "test.prepend([])", testPrependOne},
     { "test.insertAfterIndex([])", testAddAfterIndexOne},
+    { "test.fetch([])", testFetch},
     CU_TEST_INFO_NULL
 };
 
