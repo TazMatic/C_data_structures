@@ -3,17 +3,17 @@ CFLAGS += -Wall -Wextra -Wpedantic -Wwrite-strings -Wvla -Winline -Wfloat-equal 
 debug: CFLAGS += -g
 debug: .DEFAULT
 
-check: test/test_single_linked_list
+check: test/test_single_linked_list_threaded
 	./$^
 
 TESTOBJS = $(subst .c,.o,$(wildcard test/test*.c))
 
-test/test_single_linked_list: src/single_linked_list.o
-test/test_single_linked_list: $(TESTOBJS)
-test/test_single_linked_list: CFLAGS += -I src -g
-test/test_single_linked_list: LDFLAGS += -L src
-test/test_single_linked_list: LDLIBS += -lcunit
+test/test_single_linked_list_threaded: src/single_linked_list_threaded.o
+test/test_single_linked_list_threaded: $(TESTOBJS)
+test/test_single_linked_list_threaded: CFLAGS += -I src -g
+test/test_single_linked_list_threaded: LDFLAGS += -L src
+test/test_single_linked_list_threaded: LDLIBS += -lcunit
 
 
 clean:
-	$(RM) src/*.o test/*.o test/test_single_linked_list
+	$(RM) src/*.o test/*.o test/test_single_linked_list_threaded

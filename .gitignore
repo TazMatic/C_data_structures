@@ -53,3 +53,4 @@ dkms.conf
 
 # Binaries
 test_single_linked_list
+test_single_linked_list_threaded

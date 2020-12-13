@@ -1,6 +1,6 @@
-#include "single_linked_list.h"
+#include "single_linked_list_threaded.h"
 
-struct single_linked_list {
+struct single_linked_list_threaded {
     struct node *head;
 };
 
@@ -10,10 +10,10 @@ struct node
     struct node *next;
 };
 
-single_linked_list *
-single_linked_list_create(void)
+single_linked_list_threaded *
+single_linked_list_threaded_create(void)
 {
-    single_linked_list *list = malloc(sizeof(*list));
+    single_linked_list_threaded *list = malloc(sizeof(*list));
     if(!list)
     {
         return NULL;
@@ -26,7 +26,7 @@ single_linked_list_create(void)
 
 
 size_t
-single_linked_list_size(const single_linked_list *list)
+single_linked_list_threaded_size(const single_linked_list_threaded *list)
 {
     if(!list)
     {
@@ -43,7 +43,7 @@ single_linked_list_size(const single_linked_list *list)
 }
 
 bool 
-single_linked_list_append(single_linked_list *list, double value)
+single_linked_list_threaded_append(single_linked_list_threaded *list, double value)
 {
     if(!list || !value)
     {
@@ -73,7 +73,7 @@ single_linked_list_append(single_linked_list *list, double value)
 }
 
 bool 
-single_linked_list_prepend(single_linked_list *list, double value)
+single_linked_list_threaded_prepend(single_linked_list_threaded *list, double value)
 {
     if(!list || !value)
     {
@@ -94,7 +94,7 @@ single_linked_list_prepend(single_linked_list *list, double value)
 }
 
 bool 
-single_linked_list_insertAfterIndex(single_linked_list *list, double value, size_t idx)
+single_linked_list_threaded_insertAfterIndex(single_linked_list_threaded *list, double value, size_t idx)
 {
     if(!list || !value)
     {
@@ -123,7 +123,7 @@ single_linked_list_insertAfterIndex(single_linked_list *list, double value, size
 }
 
 double *
-single_linked_list_fetch(single_linked_list *list, size_t idx)
+single_linked_list_threaded_fetch(single_linked_list_threaded *list, size_t idx)
 {
     if(!list)
     {
@@ -143,7 +143,7 @@ single_linked_list_fetch(single_linked_list *list, size_t idx)
 }
 
 void 
-single_linked_list_destroy(single_linked_list *list){
+single_linked_list_threaded_destroy(single_linked_list_threaded *list){
     if(!list || !list->head)
     {
         return;

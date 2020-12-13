@@ -2,55 +2,55 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
-#include "single_linked_list.h"
+#include "single_linked_list_threaded.h"
 
-static single_linked_list *list;
+static single_linked_list_threaded *list;
 
 void
 listSetup(void)
 {
-    list = single_linked_list_create();
+    list = single_linked_list_threaded_create();
 }
 
 void
 listTeardown(void)
 {
-    single_linked_list_destroy(list);
+    single_linked_list_threaded_destroy(list);
 }
 
 void
 testSizeEmpty(void)
 {
-    CU_ASSERT_EQUAL(single_linked_list_size(list), 0);
+    CU_ASSERT_EQUAL(single_linked_list_threaded_size(list), 0);
 }
 void
 testAppendOne(void)
 {
-    single_linked_list_append(list, 1);
-    CU_ASSERT_EQUAL(single_linked_list_size(list), 1);
+    single_linked_list_threaded_append(list, 1);
+    CU_ASSERT_EQUAL(single_linked_list_threaded_size(list), 1);
 }
 void
 testPrependOne(void)
 {
-    single_linked_list_prepend(list, 1);
-    CU_ASSERT_EQUAL(single_linked_list_size(list), 1);
+    single_linked_list_threaded_prepend(list, 1);
+    CU_ASSERT_EQUAL(single_linked_list_threaded_size(list), 1);
 }
 void
 testAddAfterIndexOne(void)
 {
-    single_linked_list_prepend(list, 1);
-    single_linked_list_append(list, 2);
-    single_linked_list_append(list, 3);
-    single_linked_list_insertAfterIndex(list, 4, 1);
-    CU_ASSERT_EQUAL(single_linked_list_size(list), 4);
+    single_linked_list_threaded_prepend(list, 1);
+    single_linked_list_threaded_append(list, 2);
+    single_linked_list_threaded_append(list, 3);
+    single_linked_list_threaded_insertAfterIndex(list, 4, 1);
+    CU_ASSERT_EQUAL(single_linked_list_threaded_size(list), 4);
 }
 void
 testFetch(void)
 {
-    single_linked_list_append(list, 1);
-    single_linked_list_append(list, 2);
-    CU_ASSERT_EQUAL(*single_linked_list_fetch(list, 0), 1);
-    CU_ASSERT_EQUAL(*single_linked_list_fetch(list, 1), 2);
+    single_linked_list_threaded_append(list, 1);
+    single_linked_list_threaded_append(list, 2);
+    CU_ASSERT_EQUAL(*single_linked_list_threaded_fetch(list, 0), 1);
+    CU_ASSERT_EQUAL(*single_linked_list_threaded_fetch(list, 1), 2);
 }
 
 static CU_TestInfo listTests[] = {
