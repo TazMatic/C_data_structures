@@ -75,6 +75,21 @@ single_linked_list_append(single_linked_list *list, double value)
 bool 
 single_linked_list_prepend(single_linked_list *list, double value)
 {
+    if(!list || !value)
+    {
+        return false;
+    }
+    // Create the new node 
+    struct node *newNode = malloc(sizeof(*newNode));
+    if(!newNode)
+    {
+        return false;
+    }
+    newNode->value = value;
+    newNode->next = list->head;
+
+    // Point old list head to new node
+    list->head = newNode;
     return true;
 }
 
