@@ -29,11 +29,18 @@ testAppendOne(void)
     single_linked_list_append(list, 1);
     CU_ASSERT_EQUAL(single_linked_list_size(list), 1);
 }
+void
+testPrependOne(void)
+{
+    single_linked_list_prepend(list, 1);
+    CU_ASSERT_EQUAL(single_linked_list_size(list), 1);
+}
 
 static CU_TestInfo listTests[] = {
     // Name, functionThatRunsTest
     { "List.size([])", testSizeEmpty },
     { "test.append([])", testAppendOne},
+    { "test.prepend([])", testPrependOne},
     CU_TEST_INFO_NULL
 };
 
