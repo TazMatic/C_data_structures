@@ -96,6 +96,29 @@ single_linked_list_prepend(single_linked_list *list, double value)
 bool 
 single_linked_list_insertAfterIndex(single_linked_list *list, double value, size_t idx)
 {
+    if(!list || !value)
+    {
+        return false;
+    }
+    struct node *currentNode = list->head;
+    while (currentNode && idx > 0)
+    {
+        --idx;
+        currentNode = currentNode->next;
+    }
+     if (!currentNode)
+    {
+        return false;
+    }
+    struct node *newNode = malloc(sizeof(*newNode));
+    if (!newNode)
+    {
+        return false;
+    }
+    newNode->value = value;
+    newNode->next = currentNode->next;
+
+    currentNode->next = newNode;
     return true;
 }
 
