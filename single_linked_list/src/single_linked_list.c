@@ -45,7 +45,49 @@ single_linked_list_size(const single_linked_list *list)
 bool 
 single_linked_list_append(single_linked_list *list, double value)
 {
+    if(!list || !value)
+    {
+        return false;
+    }
+    // Create the new node 
+    struct node *newNode = malloc(sizeof(*newNode));
+    if(!newNode)
+    {
+        return false;
+    }
+    newNode->value = value;
+    newNode->next = NULL;
+    // Iterate over the list to the last node
+    struct node *currentNode = list->head;
+    if(!currentNode)
+    {
+        list->head = newNode;
+        return true;
+    }
+    while(currentNode->next)
+    {
+        currentNode = currentNode->next;
+    }
+    currentNode->next = newNode;
     return true;
+}
+
+bool 
+single_linked_list_prepend(single_linked_list *list, double value)
+{
+    return true;
+}
+
+bool 
+single_linked_list_insertAfterIndex(single_linked_list *list, double value, size_t idx)
+{
+    return true;
+}
+
+double *
+single_linked_list_fetch(single_linked_list *list, size_t idx)
+{
+    return 0;
 }
 
 void 
