@@ -1,25 +1,33 @@
 #include "list_array.h"
 
-struct list_array {
-    struct node *head;
+struct list_array
+{
+    size_t size;
+    size_t capacity;
+    void **data;
 };
 
-struct node
-{
-    double value;
-    struct node *next;
-};
+static const size_t DEFAULT_CAPACITY = 8;
+
+static bool makeBigger(list_array *l);
 
 list_array *
 list_array_create(void)
 {
     list_array *list = malloc(sizeof(*list));
-    if(!list)
+    if (!list)
     {
         return NULL;
     }
 
-    list->head = NULL;
+    list->size = 0;
+    list->capacity = DEFAULT_CAPACITY;
+    list->data = malloc(list->capacity * sizeof(*list->data));
+    if (!list->data)
+    {
+        free(list);
+        return NULL;
+    }
 
     return list;
 }
@@ -32,129 +40,110 @@ list_array_size(const list_array *list)
     {
         return 0;
     }
-    size_t len = 0;
-    struct node *currentNode = list->head;
-    while(currentNode)
-    {
-        ++len;
-        currentNode = currentNode->next;
-    }
-    return len;
+    return list->size;
 }
 
 bool 
-list_array_append(list_array *list, double value)
-{
-    if(!list || !value)
-    {
-        return false;
-    }
-    // Create the new node 
-    struct node *newNode = malloc(sizeof(*newNode));
-    if(!newNode)
-    {
-        return false;
-    }
-    newNode->value = value;
-    newNode->next = NULL;
-    // Iterate over the list to the last node
-    struct node *currentNode = list->head;
-    if(!currentNode)
-    {
-        list->head = newNode;
-        return true;
-    }
-    while(currentNode->next)
-    {
-        currentNode = currentNode->next;
-    }
-    currentNode->next = newNode;
-    return true;
-}
-
-bool 
-list_array_prepend(list_array *list, double value)
-{
-    if(!list || !value)
-    {
-        return false;
-    }
-    // Create the new node 
-    struct node *newNode = malloc(sizeof(*newNode));
-    if(!newNode)
-    {
-        return false;
-    }
-    newNode->value = value;
-    newNode->next = list->head;
-
-    // Point old list head to new node
-    list->head = newNode;
-    return true;
-}
-
-bool 
-list_array_insertAfterIndex(list_array *list, double value, size_t idx)
-{
-    if(!list || !value)
-    {
-        return false;
-    }
-    struct node *currentNode = list->head;
-    while (currentNode && idx > 0)
-    {
-        --idx;
-        currentNode = currentNode->next;
-    }
-     if (!currentNode)
-    {
-        return false;
-    }
-    struct node *newNode = malloc(sizeof(*newNode));
-    if (!newNode)
-    {
-        return false;
-    }
-    newNode->value = value;
-    newNode->next = currentNode->next;
-
-    currentNode->next = newNode;
-    return true;
-}
-
-double *
-list_array_fetch(list_array *list, size_t idx)
+list_array_append(list_array *list, void *value)
 {
     if(!list)
     {
+        return false;
+    }
+    if (list->size + 1 >= list->capacity)
+    {
+        bool success = makeBigger(list);
+        if (!success)
+        {
+            return false;
+        }
+    }
+
+    list->data[list->size++] = value;
+
+    return true;
+}
+
+bool 
+list_array_prepend(list_array *list, void *value)
+{
+    if(!list)
+    {
+        return false;
+    }
+    if (list->size == 0)
+    {
+        return list_array_append(list, value);
+    }
+
+    if (!list_array_append(list, list_array_fetch(list, list->size - 1)))
+    {
+        return false;
+    }
+
+    for (size_t n = list->size - 1; n > 0; --n)
+    {
+        list->data[n] = list->data[n-1];
+    }
+
+    list->data[0] = value;
+    return true;
+}
+
+bool 
+list_array_insertAfterIndex(list_array *list, void *value, size_t idx)
+{
+    if(!list || idx >= list->size)
+    {
+        return false;
+    }
+    if (!list_array_append(list, list_array_fetch(list, list->size - 1)))
+    {
+        return false;
+    }
+
+    for (size_t n = list->size - 1; n > idx+1; --n)
+    {
+        list->data[n] = list->data[n-1];
+    }
+
+    list->data[idx+1] = value;
+
+    return true;
+}
+
+void *
+list_array_fetch(list_array *list, size_t idx)
+{
+    if(!list || idx >= list->size)
+    {
         return NULL;
     }
-    struct node *currentNode = list->head;
-    while (currentNode && idx > 0)
-    {
-        --idx;
-        currentNode = currentNode->next;
-    }
-    if (idx != 0)
-    {
-        return NULL;
-    }
-    return &currentNode->value;
+    return list->data[idx];
 }
 
 void 
 list_array_destroy(list_array *list){
-    if(!list || !list->head)
+    if(!list)
     {
         return;
     }
-    struct node *currentNode = list->head;
-    while(currentNode)
-    {
-        struct node *nextNode = currentNode->next;
-        free(currentNode);
-        currentNode = nextNode;
-    }
+    free(list->data);
     free(list);
 
+}
+
+static bool makeBigger(list_array *list)
+{
+  void *newData = realloc(list->data,
+      2 * list->capacity * sizeof(*list->data));
+  if (!newData)
+  {
+    return false;
+  }
+
+  list->capacity *= 2;
+  list->data = newData;
+
+  return true;
 }

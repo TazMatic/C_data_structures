@@ -26,31 +26,39 @@ testSizeEmpty(void)
 void
 testAppendOne(void)
 {
-    list_array_append(list, 1);
+    double value = 1;
+    list_array_append(list, &value);
     CU_ASSERT_EQUAL(list_array_size(list), 1);
 }
 void
 testPrependOne(void)
 {
-    list_array_prepend(list, 1);
+    double value1 = 1;
+    list_array_prepend(list, &value1);
     CU_ASSERT_EQUAL(list_array_size(list), 1);
 }
 void
 testAddAfterIndexOne(void)
 {
-    list_array_prepend(list, 1);
-    list_array_append(list, 2);
-    list_array_append(list, 3);
-    list_array_insertAfterIndex(list, 4, 1);
+    double value1 = 1;
+    double value2 = 2;
+    list_array_prepend(list, &value1);
+    list_array_append(list, &value1);
+    list_array_append(list, &value1);
+    list_array_insertAfterIndex(list, &value2, 1);
     CU_ASSERT_EQUAL(list_array_size(list), 4);
+    CU_ASSERT_EQUAL(*(double *)list_array_fetch(list, 2), 2);
+
 }
 void
 testFetch(void)
 {
-    list_array_append(list, 1);
-    list_array_append(list, 2);
-    CU_ASSERT_EQUAL(*list_array_fetch(list, 0), 1);
-    CU_ASSERT_EQUAL(*list_array_fetch(list, 1), 2);
+    double value1 = 1;
+    double value2 = 2;
+    list_array_append(list, &value1);
+    list_array_append(list, &value2);
+    CU_ASSERT_EQUAL(*(double *)list_array_fetch(list, 0), 1);
+    CU_ASSERT_EQUAL(*(double *)list_array_fetch(list, 1), 2);
 }
 
 static CU_TestInfo listTests[] = {

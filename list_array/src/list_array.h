@@ -28,7 +28,7 @@ list_array_size(const list_array *list);
  * @return true on success
  */
 bool 
-list_array_append(list_array *list, double value);
+list_array_append(list_array *list, void *value);
 
 /**
  * Prepend item to beginning of list_array
@@ -37,7 +37,7 @@ list_array_append(list_array *list, double value);
  * @return true on success
  */
 bool 
-list_array_prepend(list_array *list, double value);
+list_array_prepend(list_array *list, void *value);
 
 /**
  * Inserts value after index idx
@@ -49,7 +49,7 @@ list_array_prepend(list_array *list, double value);
  *
  */
 bool 
-list_array_insertAfterIndex(list_array *list, double value, size_t idx);
+list_array_insertAfterIndex(list_array *list, void *value, size_t idx);
 
 /**
  * Get pointer to item from list_array
@@ -57,10 +57,10 @@ list_array_insertAfterIndex(list_array *list, double value, size_t idx);
  * @param the index to fetch
  * @return pointer to value fetched, or NULL
  */
-double *
+void *
 list_array_fetch(list_array *list, size_t idx);
 
-// Since this list_array stores the double data itself,
+// Since this list_array stores the void * data itself,
 // there is no way to remove the scaffolding without
 // also removing the data.
 // void
@@ -70,7 +70,7 @@ list_array_fetch(list_array *list, size_t idx);
  * Destroy list_array and free its memory
  * @param list_array to destroy
  */
-void 
+void
 list_array_destroy(list_array *list);
 
 #endif
